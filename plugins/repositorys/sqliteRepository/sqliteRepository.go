@@ -2,9 +2,9 @@ package sqliterepository
 
 import (
 	"database/sql"
-	_ "github.com/mattn/go-sqlite3"
-	"pc/core/models"
 	"pc/core/interfaces"
+	"pc/core/models"
+	_ "github.com/mattn/go-sqlite3"
 )
 
 type SqliteRepo struct {
@@ -16,7 +16,7 @@ func (s *SqliteRepo) Save(user models.User) error {
 	return err
 }
 func  (s *SqliteRepo) Find() ([]models.User,error){
-    rows,err := s.db.Query(`SELECT name,password FROM users`)
+    rows,err := s.db.Query(`SELECT id,name,password FROM users`)
 	if err != nil{
 		return nil,err
 	}
@@ -24,13 +24,21 @@ func  (s *SqliteRepo) Find() ([]models.User,error){
 	var users []models.User
 	for rows.Next() {
 		var user models.User
-		err := rows.Scan(&user.Name,&user.Password)
+		err := rows.Scan(&user.Id,&user.Name,&user.Password)
 		if err != nil{
 		   return nil,err
 		}
 		users = append(users, user)
 	}
 	return users,err
+}
+
+func (s  *SqliteRepo) Remove(id int) error{
+	_,err:=s.db.Exec(`DELETE FROM users WHERE id=?`,id)
+	if err != nil{
+		return err
+	}
+	return nil
 }
 
 func SqliteRepoInitialize(db *sql.DB) interfaces.UserRepository {

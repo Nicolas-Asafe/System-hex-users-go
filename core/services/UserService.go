@@ -15,7 +15,15 @@ func (u UserService) NewUser(data models.User){
 	}
 	u.Repo.Save(data)
 }
-func (u UserService) DeleteUserById(){
+func (u UserService) DeleteUserById(id int) (error){
+	if id < 0 {
+		panic("Id is null")
+	}
+	err := u.Repo.Remove(id)
+	if err != nil{
+		return err
+	}
+	return nil
 }
 func (u UserService) EditUser(){
 
