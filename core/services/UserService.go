@@ -16,7 +16,7 @@ func (u UserService) NewUser(data models.User){
 	u.Repo.Save(data)
 }
 func (u UserService) DeleteUserById(id int) (error){
-	if id < 0 {
+	if id == 0 {
 		panic("Id is null")
 	}
 	err := u.Repo.Remove(id)
@@ -25,11 +25,20 @@ func (u UserService) DeleteUserById(id int) (error){
 	}
 	return nil
 }
-func (u UserService) EditUser(){
-
+func (u UserService) EditUser(id int,NewData models.User) error{
+	err := u.Repo.Put(id,NewData)
+	if err != nil{
+		return err
+	}
+	return nil
 }
-func (u UserService) FindUser(){
+func (u UserService) FindUser(id int)(models.User,error){
+	user,err:=u.Repo.FindOne(id)
 
+	if err != nil{
+		return user,err
+	}
+	return user,nil
 }
 func (u UserService) ListUsers()([]models.User,error){
 	users,err := u.Repo.Find()

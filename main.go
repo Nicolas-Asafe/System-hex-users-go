@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log"
 
-	// "pc/core/models"
+	"pc/core/models"
 	"pc/core/services"
 	"pc/plugins/repositorys/sqliteRepository"
 
@@ -43,15 +43,21 @@ func main() {
 	// 	Password: "1234",
 	// })
 
-	// Deletar um usuário com id 1
-	err = serv.DeleteUserById(2)
-	if err != nil {
-		fmt.Println("Erro ao deletar:", err)
-	} else {
-		fmt.Println("Usuário deletado com sucesso!")
-	}
+	// // Deletar um usuário com id 1
+	// err = serv.DeleteUserById(2)
+	// if err != nil {
+	// 	fmt.Println("Erro ao deletar:", err)
+	// } else {
+	// 	fmt.Println("Usuário deletado com sucesso!")
+	// }
 
 	// Listar os usuários
+	err=serv.Repo.Put(3,models.User{
+		Name: "Nicolassss",
+	})
+	if err != nil{
+		panic(err)
+	}
 	PrintUsers()
 }
 

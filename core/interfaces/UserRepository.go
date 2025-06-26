@@ -7,8 +7,8 @@ import (
 type UserRepository interface {
 	Save(user models.User) error
 	Remove(id int) error
-	// Put(id int, NewData any) error
-	//FindOne(id int) error
+	Put(id int, NewData models.User) error
+	FindOne(id int) (models.User, error)
 	Find() ([]models.User,error)
 }
 
