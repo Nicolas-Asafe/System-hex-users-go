@@ -52,7 +52,7 @@ func (s *SqliteRepo) Put(id int,NewData models.User) error{
 }
 
 
-func (s  *SqliteRepo) Remove(id int) error{
+func (s  *SqliteRepo) Remove(id int64) error{
 	_,err:=s.db.Exec(`DELETE FROM users WHERE id=?`,id)
 	if err != nil{
 		return err
